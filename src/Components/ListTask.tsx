@@ -18,9 +18,16 @@ const ListTask = (props: IListTask) => {
   const [keyword, setKeyword] = useState<string>("");
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
 
-  const onSearch = (event: any) => {
+  const onChangeKeyword = (event: any) => {
     setKeyword(event.target.value);
-    // can use debounce
+  };
+
+  const onSearch = () => {
+    let _tasks = listTask;
+    _tasks = _tasks.filter((task) =>
+      task.taskName.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
+    );
+    setTasks(_tasks);
   };
 
   const onClickRemove = () => {
@@ -43,8 +50,9 @@ const ListTask = (props: IListTask) => {
         task.taskName.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
       );
     }
+    _tasks.sort((a, b) => a?.dueDate - b?.dueDate);
     setTasks(_tasks);
-  }, [listTask, keyword]);
+  }, [listTask]);
 
   return (
     <div className="todo-list-wrap">
@@ -53,7 +61,8 @@ const ListTask = (props: IListTask) => {
         <div className="search-task">
           <Search
             placeholder="Search ..."
-            onChange={onSearch}
+            onChange={onChangeKeyword}
+            onSearch={onSearch}
             className="ant-input-border "
           />
         </div>
@@ -61,7 +70,7 @@ const ListTask = (props: IListTask) => {
           {tasks.map((task: ITask, index: number) => {
             return (
               <TaskItem
-                key={task.id}
+                key={task.id + index}
                 task={task}
                 index={index}
                 onUpdated={onUpdated}

@@ -74,7 +74,7 @@ const AddTask = (props: IAddTask) => {
           autoComplete="off"
           initialValues={{
             dueDate: moment(),
-            piority: PIORITY_LIST[0],
+            piority: PIORITY_LIST[1],
           }}
         >
           <Row gutter={[32, 0]} justify="center">
@@ -125,6 +125,7 @@ const AddTask = (props: IAddTask) => {
                       moment().add(1, "month") <= current
                     );
                   }}
+                  clearIcon={null}
                 />
               </Form.Item>
             </Col>
